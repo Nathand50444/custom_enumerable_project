@@ -31,7 +31,15 @@ module Enumerable
     result
   end
 
+  def my_all?
+    self.my_each { |element| return false unless yield(element) }
+    true
+  end  
 
+  def my_any?
+    self.my_each { |element| return true if yield(element) }
+    false
+  end    
 
 end
 
@@ -41,6 +49,8 @@ end
 # to this method
 class Array
   def my_each
+    return enum_for(:my_each) unless block_given?
+
     for i in self
       yield(i)
     end
